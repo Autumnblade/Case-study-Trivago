@@ -1,0 +1,7 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+#topic-input {
+    border: 1px solid blue;
+}
