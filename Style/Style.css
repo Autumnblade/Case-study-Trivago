@@ -5,3 +5,12 @@
 #topic-input {
     border: 1px solid blue;
 }
+#page-content {
+    width: 60%;
+    height: 100%;
+    margin-left: auto;
+    margin-right:auto;
+}
+form#ajax-topic {
+    margin-top: 20px;
+}

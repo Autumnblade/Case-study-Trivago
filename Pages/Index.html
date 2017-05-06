@@ -1,13 +1,49 @@
 <html>
     <head>
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="../Style/bootstrap-lumen.min.css">
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <!-- Bootstrap JS -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <!-- Custom CSS -->
         <link rel="stylesheet" type="text/css" href="../Style/Style.css">
-        <script src="../Scripts/jquery-3.2.1.slim.min.js"></script>
+        <!-- Custom JS -->
         <script src="../Scripts/submit-topic.js"></script>
     </head>
     <body>
-        <form>
-            <input id="topic-input" placeholder="Topic..">
-            <button id="submitTopic" type="button">Submit</button>
-        </form>
+        <div id="page-content">
+            <div id="form-messages"></div>
+            <form id="ajax-topic" method="post" action="#" role="form">
+                <div class="form-group col-md-12">
+                        <input class="form-control" type="text" id="topic" name="topic" placeholder="Topic.." required>
+                </div>
+                <div class="form-group col-md-12">
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-primary active">
+                            <input type="radio" name="options" id="option1" value="review1" checked> Review 1
+                        </label>
+                        <label class="btn btn-primary">
+                            <input type="radio" name="options" id="option2" value="review2"> Review 2
+                        </label>
+                        <label class="btn btn-primary">
+                            <input type="radio" name="options" id="option3" value="review3"> Review 3
+                        </label>
+                        <label class="btn btn-primary">
+                            <input type="radio" name="options" id="option4" value="review4"> Review 4
+                        </label>
+                        <label class="btn btn-primary">
+                            <input type="radio" name="options" id="option4" value="review5"> Review 5
+                        </label>
+                        <label class="btn btn-primary">
+                            <input type="radio" name="options" id="option5" value="allreviews"> All reviews
+                        </label>
+                    </div>
+                    <button id="submitTopic" type="submit" class="btn btn-primary pull-right">Submit</button>
+                </div>
+            </form>
+            <div id="content"></div>
+        </div>
     </body>
 </html>
