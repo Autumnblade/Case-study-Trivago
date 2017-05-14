@@ -13,4 +13,5 @@
 }
 form#ajax-topic {
     margin-top: 20px;
+    min-height: 150px;
 }
