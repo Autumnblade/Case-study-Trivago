@@ -49,6 +49,9 @@ function createReviewPanel(review) {
 
     var pRatings = $('<div class="col-md-3"></div>');
     var pContent = $('<div class="col-md-9"></div>');
+    
+    var ratingList = ratings(review['Ratings']);
+    pRatings.append(ratingList);
 
     var contentText = review['Content'];
     pContent.append(contentText);
@@ -64,4 +67,17 @@ function createReviewPanel(review) {
 
     // Finish with putting the panel in the content area
     content.append(panel);
+}
+
+function ratings(ratings) {
+    // Creates a list of ratings
+    var ul = $('<ul class="list-group"></ul>');
+    
+    $.each(ratings, function (i, val) {
+        var li = $('<li class="list-group-item"></li>');
+        ul.append(li.text(i + " : " + val));
+    });
+
+    // List of ratings are returned
+    return ul;
 }
