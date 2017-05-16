@@ -40,8 +40,10 @@ function createReviewPanel(review) {
     var pHeading = $('<div class="panel-heading"></div>');
 
     var title = $('<h3 class="panel-title"></h3>').text(review['Author']);
+    var overallRating = $('<p class="pull-right"></p>').text('Gives overal score: ' + review['Ratings']['Overall']);
 
     pHeading.append(title);
+    pHeading.prepend(overallRating);
     
     // End header
     // Body
@@ -74,8 +76,11 @@ function ratings(ratings) {
     var ul = $('<ul class="list-group"></ul>');
     
     $.each(ratings, function (i, val) {
-        var li = $('<li class="list-group-item"></li>');
-        ul.append(li.text(i + " : " + val));
+        // Overall rating is already presented in the header of the panel.
+        if (i != 'Overall') {
+            var li = $('<li class="list-group-item"></li>');
+            ul.append(li.text(i + " : " + val));
+        }
     });
 
     // List of ratings are returned
