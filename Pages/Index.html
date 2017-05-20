@@ -14,7 +14,6 @@
     </head>
     <body>
         <div id="page-content">
-            <div id="form-messages"></div>
             <form id="ajax-topic" method="post" action="#" role="form">
                 <div class="form-group col-md-12">
                         <input class="form-control" type="text" id="topic" name="topic" placeholder="Topic.." required>
@@ -22,22 +21,19 @@
                 <div class="form-group col-md-12">
                     <div class="btn-group" data-toggle="buttons">
                         <label class="btn btn-primary active">
-                            <input type="radio" name="options" id="option1" value="review1" checked> Review 1
+                            <input type="radio" name="review" id="option1" value="1" checked> Review 1
                         </label>
                         <label class="btn btn-primary">
-                            <input type="radio" name="options" id="option2" value="review2"> Review 2
+                            <input type="radio" name="review" id="option2" value="2"> Review 2
                         </label>
                         <label class="btn btn-primary">
-                            <input type="radio" name="options" id="option3" value="review3"> Review 3
+                            <input type="radio" name="review" id="option3" value="3"> Review 3
                         </label>
                         <label class="btn btn-primary">
-                            <input type="radio" name="options" id="option4" value="review4"> Review 4
+                            <input type="radio" name="review" id="option4" value="4"> Review 4
                         </label>
                         <label class="btn btn-primary">
-                            <input type="radio" name="options" id="option4" value="review5"> Review 5
-                        </label>
-                        <label class="btn btn-primary">
-                            <input type="radio" name="options" id="option5" value="allreviews"> All reviews
+                            <input type="radio" name="review" id="option4" value="5"> Review 5
                         </label>
                     </div>
                     <button id="submitTopic" type="submit" class="btn btn-primary pull-right">Submit</button>

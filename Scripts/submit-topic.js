@@ -7,20 +7,27 @@ $(document).ready( function() {
         event.preventDefault();
 
         // Serializes the form data to an array.
+        // This is needed to send it later on with AJAX.
         var formData = $(this).serializeArray();
 
-        // Declare essential variable
+        // Declare essential variables
         var topic = null;
+        var reviewNumber = null;
 
-        // Iterates through with as purpose to initialize the essential variable
+        // Iterates through with as purpose to initialize the essential variables
         $.each(formData, function (i, obj){
             if (obj.name == 'topic') {
                 topic = obj.value;
+            } else if (obj.name == 'review') {
+                reviewNumber = obj.value;
             }
         });
+
+        // Puts the path directory together
+        var jsonRequestDir = '../Reviews/reviews' + reviewNumber + '.json';
         
         // Request for the review
-        $.getJSON('../Reviews/reviews1.json', function (data) {
+        $.getJSON(jsonRequestDir, function (data) {
             var hotel = data["HotelInfo"];
             var reviews = data["Reviews"];
 
@@ -32,7 +39,7 @@ $(document).ready( function() {
 
             // Creates the reviews visually
             $.each(reviews, function(i, val) {
-                createReviewPanel(val);
+                createReviewPanel(val, topic);
             });
         });
     });
@@ -81,7 +88,7 @@ function createHotelPanel(hotel){
     content.append(panel);
 }
 
-function createReviewPanel(review) {
+function createReviewPanel(review, contentFilter) {
     var content = $('#content');
 
     var panel = $('<div class="panel panel-default"></div>');
@@ -105,7 +112,7 @@ function createReviewPanel(review) {
 
     /// right(content) side
     var rightSection = $('<div class="col-md-9"></div>');
-    var contentText = review['Content'];
+    var contentText = createContent(review['Content'], contentFilter);
 
     leftSection.append(ratingList);
     rightSection.append(contentText);
@@ -137,4 +144,22 @@ function ratings(ratings) {
 
     // List of ratings are returned
     return ul;
+}
+
+function createContent(content, filterWord) {
+    // Splits every word and puts it in an array
+    var sContent = content.split(" ");
+    var newContent = "";
+
+    // Highlights words where needed
+    $.each(sContent, function(i, val) {
+        if (sContent[i] == filterWord) {
+            newContent += '<span class="bg-info">' + sContent[i] + '</span> ';
+        } else {
+            newContent += sContent[i] + ' ';
+        } 
+    });
+
+    // Return the content with the topic highlighted
+    return newContent;
 }
