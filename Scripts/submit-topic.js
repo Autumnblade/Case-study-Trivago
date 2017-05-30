@@ -27,19 +27,25 @@ $(document).ready( function() {
         var jsonRequestDir = '../Reviews/reviews' + reviewNumber + '.json';
         
         // Request for the review
-        $.getJSON(jsonRequestDir, function (data) {
-            var hotel = data["HotelInfo"];
-            var reviews = data["Reviews"];
+        $.getJSON(jsonRequestDir, function (reviewsData) {
+            // Request for the semantics
+            $.getJSON('../Reviews/semantics.json', function (semanticsData) {
+                var hotel = reviewsData["HotelInfo"];
+                var reviews = reviewsData["Reviews"];
 
-            // Clears the area for the next search
-            $("#content").empty();
+                // Clears the area for the next search
+                $("#content").empty();
 
-            // Creates the hotel visually 
-            createHotelPanel(hotel);
+                // Creates the hotel visually 
+                createHotelPanel(hotel);
 
-            // Creates the reviews visually
-            $.each(reviews, function(i, val) {
-                createReviewPanel(val, topic);
+                // Creates a filter for the review's content
+                var reviewFilter = createFilter(topic, semanticsData);
+
+                // Creates the reviews visually
+                $.each(reviews, function(i, val) {
+                    createReviewPanel(val, reviewFilter);
+                });
             });
         });
     });
@@ -146,20 +152,76 @@ function ratings(ratings) {
     return ul;
 }
 
-function createContent(content, filterWord) {
+function createFilter(topic, semantics) {
+    var filter = { blue: topic };
+    var positive = [];
+    var negative = [];
+
+    // Appends positive words 
+    $.each(semantics['positive'], function(propName, val){
+        positive.push(val['phrase']);
+    });
+    
+    // Appends negative words 
+    $.each(semantics['negative'], function(propName, val){
+        negative.push(val['phrase']);
+    });
+    
+    filter.green = positive;
+    filter.red = negative;
+
+    return filter;
+}
+
+function highlightFilter(word, filter) {
+    var wordHighlighted = null;
+    
+    if (filter.blue == word) 
+        return '<span class="bg-info">' + word + '</span>';
+
+    // Search for a positive word
+    $.each(filter.green, function (i, val) {
+        if (word == val) {
+            // Match!
+            wordHighlighted = '<span class="bg-success">' + word + '</span>';
+            
+            // Stop iterating
+            return false;
+        }
+    });
+
+    // Return when the word was already found
+    if (wordHighlighted != null)
+        return wordHighlighted;
+
+    // Search for a negative word
+    $.each(filter.red, function (i, val) {
+        if (word == val) {
+            // Match!
+            wordHighlighted = '<span class="bg-danger">' + word + '</span>';
+            
+            // Stop iterating
+            return false;
+        }
+    });
+
+    // Return the highlighted word if it was found
+    if (wordHighlighted != null)
+        return wordHighlighted; 
+
+    return word;
+}
+
+function createContent(content, filter) {
     // Splits every word and puts it in an array
-    var sContent = content.split(" ");
+    var words = content.split(" ");
     var newContent = "";
 
     // Highlights words where needed
-    $.each(sContent, function(i, val) {
-        if (sContent[i] == filterWord) {
-            newContent += '<span class="bg-info">' + sContent[i] + '</span> ';
-        } else {
-            newContent += sContent[i] + ' ';
-        } 
+    $.each(words, function(i, val){
+        newContent += highlightFilter(words[i], filter) + ' ';
     });
 
-    // Return the content with the topic highlighted
+    // Return the same content but with highlights where needed
     return newContent;
 }
